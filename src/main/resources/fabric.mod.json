@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "jscore",
+  "version": "${version}",
+  "name": "JSCore",
+  "description": "Javascript wrapper library.",
+  "authors": [
+    "Siriusmart"
+  ],
+  "contact": {
+    "repo": "https://github.com/siriusmart/jscore"
+  },
+  "icon": "assets/template/icon.png",
+  "environment": "client",
+  "custom": {},
+  "depends": {
+    "java": ">=21",
+    "minecraft": ["${mc_version}"],
+    "meteor-client": "*"
+  },
+  "entrypoints": {
+    "main": [
+      "ws.siri.jscore.Core"
+    ]
+  }
+}
