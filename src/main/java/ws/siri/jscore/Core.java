@@ -1,27 +1,34 @@
 package ws.siri.jscore;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jetbrains.annotations.Nullable;
 import org.mozilla.javascript.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientWorldEvents;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.server.command.CommandManager;
+import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import ws.siri.jscore.wraps.Runnable;
 
 public class Core implements ModInitializer {
-    public static final String MOD_ID = "fabric-docs-reference";
+    public static final String MOD_ID = "jscore";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static yarnwrap.client.MinecraftClient client;
@@ -41,12 +48,7 @@ public class Core implements ModInitializer {
         rhino = Context.enter();
         rhinoScope = rhino.initStandardObjects();
 
-        eval("const modcore = new Packages.ws.siri.jscore.Core;", CatchMode.THROW);
-        eval("const client = modcore.getClient();", CatchMode.THROW);
-        eval("var player, p;");
-        eval("const updatePlayer = () => { player = client.player(); p = new Packages.yarnwrap.entity.Entity(player.wrapperContained); }",
-                CatchMode.THROW);
-        eval("const console = { log: modcore.log, error: modcore.error }");
+        Loader.init();
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(ClientCommandManager.literal("jseval")
@@ -74,6 +76,10 @@ public class Core implements ModInitializer {
                             })));
         });
 
+        // java.util.function.Function f = (mc) -> {};
+
+        // ClientTickEvents.END_CLIENT_TICK.register(f);
+
         ClientWorldEvents.AFTER_CLIENT_WORLD_CHANGE.register((client, world) -> {
             playerOutdated = true;
         });
@@ -83,7 +89,7 @@ public class Core implements ModInitializer {
                 return;
 
             if (playerOutdated) {
-                eval("updatePlayer()");
+                eval("updatePlayer();");
                 playerOutdated = false;
             }
         });
@@ -92,37 +98,40 @@ public class Core implements ModInitializer {
     }
 
     public static void log(String s, Formatting formatting) {
-        client.wrapperContained.inGameHud.getChatHud().addMessage(Text.literal(s).formatted(formatting));
+        if(client.wrapperContained.inGameHud == null) LOGGER.info(s);
+        else client.wrapperContained.inGameHud.getChatHud().addMessage(Text.literal(s).formatted(formatting));
     }
 
     public static void log(String s) {
-        client.wrapperContained.inGameHud.getChatHud().addMessage(Text.literal(s).formatted(Formatting.GRAY));
+        if(client.wrapperContained.inGameHud == null) LOGGER.info(s);
+        else client.wrapperContained.inGameHud.getChatHud().addMessage(Text.literal(s).formatted(Formatting.GRAY));
     }
 
     public static void error(String s) {
-        client.wrapperContained.inGameHud.getChatHud().addMessage(Text.literal(s).formatted(Formatting.RED));
+        if(client.wrapperContained.inGameHud == null) LOGGER.info(s);
+        else client.wrapperContained.inGameHud.getChatHud().addMessage(Text.literal(s).formatted(Formatting.RED));
     }
 
-    @Nullable
+    public static Object evalUncatched(String statement, String file) throws Exception {
+        return rhino.evaluateString(rhinoScope, statement, file, 1, null);
+    }
+
     public static Optional<Object> eval(String statement) {
         return eval(statement, CatchMode.PRINT);
     }
 
-    public static Optional<Object> eval(String statement, CatchMode catchMode) {
+    public static Optional<Object> eval(String statement, CatchMode catchMode, String name) {
         try {
-            return Optional.of(rhino.evaluateString(rhinoScope, statement, "eval", 1, null));
+            return Optional.of(evalUncatched(statement, name));
         } catch (Exception e) {
-            switch (catchMode) {
-                case THROW:
-                    throw new RuntimeException(e.getMessage());
-                case PRINT:
-                    error(e.getMessage());
-                case QUIET:
-                    LOGGER.error(e.getMessage());
-            }
+            catchMode.handle(e);
         }
 
         return Optional.empty();
+    }
+
+    public static Optional<Object> eval(String statement, CatchMode catchMode) {
+        return eval(statement, catchMode, "unamed");
     }
 
     @Nullable
@@ -137,5 +146,9 @@ public class Core implements ModInitializer {
         if(res.isEmpty()) return res;
 
         return Optional.of(Context.jsToJava(res.get(), Object.class));
+    }
+
+    public static Runnable runnable(String source) {
+        return new Runnable(source);
     }
 }

@@ -15,8 +15,7 @@
   "custom": {},
   "depends": {
     "java": ">=21",
-    "minecraft": ["${mc_version}"],
-    "meteor-client": "*"
+    "minecraft": ["${mc_version}"]
   },
   "entrypoints": {
     "main": [
