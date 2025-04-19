@@ -8,13 +8,13 @@ import net.fabricmc.loader.api.FabricLoader;
 
 public class Loader {
     public static void init() {
-        Path initPath = FabricLoader.getInstance().getConfigDir().resolve(Core.MOD_ID).resolve("init.js");
+        Path initPath = FabricLoader.getInstance().getConfigDir().resolve(Core.MOD_ID).resolve("sys/init.js");
         createFileIfNotExist(initPath);
 
         try {
             Core.eval(readFile(initPath), CatchMode.THROW, initPath.toString());
         } catch (Exception e) {
-            Core.LOGGER.error("YOUR INIT.JS IS BOGUS");
+            Core.LOGGER.error("YOUR SYS/INIT.JS IS BOGUS");
             throw new RuntimeException(e.getMessage());
         }
     }

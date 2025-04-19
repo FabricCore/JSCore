@@ -28,6 +28,7 @@ public class Core implements ModInitializer {
     }
 
     private boolean playerOutdated;
+    private boolean playerIsSet = false;
 
     @Override
     public void onInitialize() {
@@ -37,18 +38,23 @@ public class Core implements ModInitializer {
         rhinoScope = rhino.initStandardObjects();
 
         Loader.init();
+        
 
         ClientWorldEvents.AFTER_CLIENT_WORLD_CHANGE.register((client, world) -> {
             playerOutdated = true;
         });
 
         ClientTickEvents.START_CLIENT_TICK.register((mc) -> {
-            if (mc.world == null)
+            if (mc.world == null && playerIsSet) {
+                eval("clearPlayer();");
+                playerIsSet = false;
                 return;
+            }
 
             if (playerOutdated) {
                 eval("updatePlayer();");
                 playerOutdated = false;
+                playerIsSet = true;
             }
         });
 

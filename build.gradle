@@ -11,7 +11,7 @@ base {
 tasks.jar {
     from {
         configurations.runtimeClasspath.collect { dep ->
-            if (dep.name.contains("rhino") || dep.name.contains("yarnwrap")) {
+            if (dep.name.contains("rhino")) {
                 zipTree(dep)
             }
         }
