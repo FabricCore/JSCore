@@ -14,7 +14,7 @@ public abstract class IRunnableCore<R extends IRunnable> {
         this.c = c;
     }
 
-    public R runnable(String ident, String function) {
+    public R create(String ident, String function) {
         try {
             if(runnables.containsKey(ident)) {
                 Function f = Core.rhino.compileFunction(Core.rhinoScope, function, ident, 1, null);
