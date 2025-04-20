@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientWorldEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import ws.siri.jscore.wraps.Runnable;
+import ws.siri.jscore.wraps.CmdRunnableCore;
 
 public class Core implements ModInitializer {
     public static final String MOD_ID = "jscore";
@@ -22,6 +22,8 @@ public class Core implements ModInitializer {
     public static yarnwrap.client.MinecraftClient client;
     public static Context rhino;
     public static Scriptable rhinoScope;
+
+    public static CmdRunnableCore runnable = new CmdRunnableCore();
 
     public static yarnwrap.client.MinecraftClient getClient() {
         return client;
@@ -57,9 +59,6 @@ public class Core implements ModInitializer {
                 playerIsSet = true;
             }
         });
-
-        // BodyHandler
-        // HttpClient
 
         LOGGER.info("JSCore powered up.");
     }
@@ -113,13 +112,5 @@ public class Core implements ModInitializer {
         if(res.isEmpty()) return res;
 
         return Optional.of(Context.jsToJava(res.get(), Object.class));
-    }
-
-    public static Runnable runnable(String ident, String function) {
-        return Runnable.create(ident, function);
-    }
-
-    public static Runnable getRunnable(String ident) {
-        return Runnable.runnables.get(ident);
     }
 }
