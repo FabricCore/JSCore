@@ -12,12 +12,12 @@ public abstract class IRunnable {
         f = Core.rhino.compileFunction(Core.rhinoScope, function, ident, 1, null);
     }
 
-    public void runF(Object... args) {
-        f.call(Core.rhino, Core.rhinoScope, null, args);
+    public Object runF(Object... args) {
+        return f.call(Core.rhino, Core.rhinoScope, null, args);
     }
 
-    public void runFCtx(Context ctx, Object... args) {
-        f.call(ctx, Core.rhinoScope, null, args);
+    public Object runFCtx(Context ctx, Object... args) {
+        return f.call(ctx, Core.rhinoScope, null, args);
     }
 
     class RunnableDetached implements java.lang.Runnable {
