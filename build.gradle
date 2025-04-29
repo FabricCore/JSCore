@@ -25,7 +25,7 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modImplementation files('lib/yarnwrap-1_21_1.jar')
+    // modImplementation files('lib/yarnwrap-1_21_1.jar')
 
     modImplementation 'org.mozilla:rhino:1.8.0'
     modImplementation 'org.mozilla:rhino-engine:1.7.15'
