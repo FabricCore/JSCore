@@ -16,7 +16,7 @@ JSCore provides JavaScript support to Minecraft, putting no restrictions on what
 
 ## Installation and Everything Else
 
-Refer to the appropriate guides:
+Refer to the relevant guides:
 - [**Player guide** (TODO)]()
 - [**Developer guide** (TODO)]()
 
