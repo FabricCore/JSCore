@@ -17,7 +17,7 @@ JSCore provides JavaScript support to Minecraft, putting no restrictions on what
 ## Installation and Everything Else
 
 Refer to the relevant guides:
-- [**Player guide** (TODO)]()
-- [**Developer guide** (TODO)]()
+- [**Player guide**](https://jscore.siri.ws/player/)
+- [**Developer guide**](https://jscore.siri.ws/dev/)
 
 <img src="./src/main/resources/assets/template/icon.png" width=50px>
