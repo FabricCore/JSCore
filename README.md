@@ -10,7 +10,8 @@ JSCore provides JavaScript support to Minecraft, putting no restrictions on what
 
 |Version|Download|
 |---|---|
-|1.21.1|[0.1.2 (1.21.1)](https://github.com/FabricCore/JSCore/releases/download/0.1.2/jscore.1.21.1.-0.1.2.jar)
+|1.21.5|[0.1.2 (1.21.5)](https://github.com/FabricCore/JSCore/releases/download/0.1.2/jscore-1.21.5-0.1.2.jar)
+|1.21.1|[0.1.2 (1.21.1)](https://github.com/FabricCore/JSCore/releases/download/0.1.2/jscore-1.21.1-0.1.2.jar)
 
 > I would appreciate if you give this project a star :)
 
