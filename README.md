@@ -4,6 +4,9 @@
 
 JSCore provides JavaScript support to Minecraft, putting no restrictions on what can be done.
 
+> [!IMPORTANT]
+> Join [**Discord**](https://discord.gg/WAR9aKVFQJ), we like feedback from the user and new packages from developers.
+
 **Wraps** provide access to obfuscated Java classes from the base game. Classes provided by mods are typically not obfuscated and can be accessed directly.
 - [**Yarnwrap**](https://github.com/FabricCore/yarnwrap) - provide access to most Minecraft classes.
 - **Mixinwrap** (TODO) - provide very limited access to Minecraft mixins.
