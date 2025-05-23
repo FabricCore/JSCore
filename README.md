@@ -1,6 +1,6 @@
 # JSCore - Minecraft-aware JS Runtime
 
-**[JSCore Book](https://jscore.siri.ws)** | [**Yarnwrap**](https://github.com/FabricCore/yarnwrap)
+**Guides (TODO)** | [**Yarnwrap**](https://github.com/FabricCore/yarnwrap)
 
 JSCore provides JavaScript support to Minecraft, putting no restrictions on what can be done.
 
@@ -17,7 +17,7 @@ JSCore provides JavaScript support to Minecraft, putting no restrictions on what
 ## Installation and Everything Else
 
 Refer to the relevant guides:
-- [**Player guide**](https://jscore.siri.ws/player/)
-- [**Developer guide**](https://jscore.siri.ws/dev/)
+- [**Player guide** (TODO)]()
+- [**Developer guide** (TODO)]()
 
 <img src="./src/main/resources/assets/template/icon.png" width=50px>
